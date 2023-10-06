@@ -1,8 +1,9 @@
 import Pkg
 include("kwargs.jl")
 kwargs = Kwargs.kwargs(; coverage=ENV["COVERAGE"],
-                         force_latest_compatible_version=ENV["FORCE_LATEST_COMPATIBLE_VERSION"],
-                         julia_args=[string("--check-bounds=", ENV["CHECK_BOUNDS"])])
+    force_latest_compatible_version=ENV["FORCE_LATEST_COMPATIBLE_VERSION"],
+    julia_args=[string("--check-bounds=", ENV["CHECK_BOUNDS"])],
+    test_args=ARGS)
 
 if parse(Bool, ENV["ANNOTATE"]) && v"1.8pre" < VERSION < v"1.9.0-beta3"
     push!(LOAD_PATH, "@tests-logger-env") # access dependencies
@@ -10,7 +11,7 @@ if parse(Bool, ENV["ANNOTATE"]) && v"1.8pre" < VERSION < v"1.9.0-beta3"
     global_logger(GitHubActionsLogger())
     include("test_logger.jl")
     pop!(LOAD_PATH)
-    TestLogger.test(; kwargs...)        
+    TestLogger.test(; kwargs...)
 else
-    Pkg.test(; kwargs...)        
+    Pkg.test(; kwargs...)
 end

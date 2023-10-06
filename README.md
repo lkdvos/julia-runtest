@@ -48,6 +48,7 @@ Here, setting `annotate: true` causes GitHub "annotations" to appear when review
 This functionality is only enabled on Julia 1.8 (even if `annotate` is set to `true`), since currently it does not work on other Julia versions (see #76).
 
 By default, `annotate` is set to false, but that may change in future releases of this action.
+
 ### Prefixing the Julia command
 
 In some packages, you may want to prefix the `julia` command with another command, e.g. for running tests of certain graphical libraries with `xvfb-run`.
@@ -80,6 +81,16 @@ If you only want to add this prefix on certain builds, you can [include addition
 ```
 
 This will add the prefix `xvfb-run` to all builds where the `os` is `ubuntu-latest`.
+
+### Suffixing the Julia command
+
+In some packages, you may want to pass additional tests to the `runtests.jl` script. In that case, you can add an input called `suffix` containing the command that will be inserted after the `runtests.jl` script:
+
+```yaml
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          suffix: ["testarg1" "testarg2"]
+```
 
 
 ### Registry flavor preference

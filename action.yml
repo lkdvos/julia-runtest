@@ -26,6 +26,10 @@ inputs:
     description: 'Value inserted in front of the julia command, e.g. for running xvfb-run julia [...]'
     default: ''
     required: false
+  suffix:
+    description: 'Value inserted after the julia command, e.g. for running the tests with additional arguments'
+    default: ''
+    required: false
   project:
     description: 'Value passed to the --project flag. The default value is the repository root: "@."'
     default: '@.'
@@ -56,6 +60,10 @@ runs:
         # Add the prefix in front of the command if there is one
         prefix=( ${{ inputs.prefix }} )
         [[ -n ${prefix[*]} ]] && julia_cmd=( "${prefix[@]}" "${julia_cmd[@]}" )
+        
+        # Add the suffix after the command if there is one
+        suffix=( ${{ inputs.suffix }} )
+        [[ -n ${suffix[*]} ]] && julia_cmd=( "${julia_cmd[@]}" "${suffix[@]}" )
 
         # Run the Julia command
         echo "::debug::Executing Julia: ${julia_cmd[*]}"

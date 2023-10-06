@@ -6,7 +6,8 @@ include(joinpath(@__DIR__, "autodetect-dependabot.jl"))
 
 function kwargs(; coverage,
                   force_latest_compatible_version,
-                  julia_args::AbstractVector{<:AbstractString}=String[])
+                  julia_args::AbstractVector{<:AbstractString}=String[],
+                  test_args::AbstractVector{<:AbstractString}=String[])
     if coverage isa AbstractString
         coverage = parse(Bool, coverage)
     end
@@ -50,6 +51,8 @@ function kwargs(; coverage,
     else
         kwargs_dict[:force_latest_compatible_version] = force_latest_compatible_version::Bool
     end
+    
+    kwargs_dict[:test_args] = test_args
 
     return kwargs_dict
 end
